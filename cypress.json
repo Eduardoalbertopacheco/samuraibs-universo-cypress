@@ -2,6 +2,13 @@
     "baseUrl": "http://localhost:3000/",
 
     "viewportWidth": 1440,
-    "viewportHeight": 900
+    "viewportHeight": 900,
+    "dbConfig": {
+        "host": "berry.db.elephantsql.com",
+        "user": "rksubegy",
+        "password": "gqdywefzXCapVNGHfdsyMdX_JIM9BRuO",
+        "database": "rksubegy",
+        "port": 5432
+    }
 
 }
