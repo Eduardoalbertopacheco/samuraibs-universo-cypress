@@ -3,20 +3,20 @@ import signupPage from '../support/pages/signup'
 
 describe('Cadastro', function () {
 
-    context('quando o usuário é novato', function () {
+    before(function() {
+        cy.fixture('usuariojoao').then(function(usuariojoao){
+            this.usuariojoao = usuariojoao
+        })
 
-        // definindo a massa de testes
-        const user = {
-            name: 'João de Arimatéia',
-            email: 'Pedrodearaujo@bol.com',
-            password: 'nova2958062'
-        }
+    })
+
+    context.only('quando o usuário é novato', function () {
 
         before(function () {
 
             // removendo o usuário para que a massa seja sempre válida
             // a configuração está na pasta 'plugin' npo arquivo 'index.js'
-            cy.task('removeUser', user.email)
+            cy.task('removeUser', this.usuariojoao.email)
                 .then(function (result) {
                     console.log(result)
                 })
@@ -26,7 +26,7 @@ describe('Cadastro', function () {
         it('Deve cadastrar usuário com sucesso', function () {
 
             signupPage.go()
-            signupPage.form(user)
+            signupPage.form(this.usuariojoao)
             signupPage.submit()
             signupPage.toast.shouldHaveText('Agora você se tornou um(a) Samurai, faça seu login para ver seus agendamentos!')
 
@@ -60,18 +60,7 @@ describe('Cadastro', function () {
         }
 
         before(function () {
-            cy.task('removeUser', user.email)
-                .then(function (result) {
-                    console.log(result)
-                })
-
-            cy.request(
-                'POST',
-                'http://localhost:3333/users',
-                user
-            ).then(function (response) {
-                expect(response.status).to.be.eq(200)
-            })
+          cy.postUser(user)
 
         })
 
@@ -109,7 +98,7 @@ describe('Cadastro', function () {
             signupPage.go()
             signupPage.form(user)
             signupPage.submit()
-            signupPage.alertHaveText('Informe um email válido')
+            signupPage.alert.haveText('Informe um email válido')
         })
     })
 
@@ -137,7 +126,7 @@ describe('Cadastro', function () {
         })
 
         afterEach(function () {
-            signupPage.alertHaveText('Pelo menos 6 caracteres')
+            signupPage.alert.haveText('Pelo menos 6 caracteres')
 
         })
     })
@@ -157,7 +146,7 @@ describe('Cadastro', function () {
 
         alertMessages.forEach(function (alert){
             it('deve exibir ' + alert.toLowerCase(), function(){
-                signupPage.alertHaveText(alert)
+                signupPage.alert.haveText(alert)
             })
         })
 

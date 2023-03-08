@@ -1,10 +1,8 @@
 
 import { el } from './elements'
-
 import toast from '../../components/toast'
 import alert from '../../components/alert'
-
-class SignupPage {
+class LoginPage {
 
     constructor() {
         this.toast = toast
@@ -12,18 +10,19 @@ class SignupPage {
     }
 
     go() {
-        cy.visit('/signup')
+        cy.visit('/')
     }
 
     form(user) {
-        cy.get(el.name).type(user.name)
-        cy.get(el.email).type(user.email)
-        cy.get(el.password).type(user.password)
+        cy.get(el.email).clear()
+            .type(user.email)
+        cy.get(el.password).clear()
+            .type(user.password)
     }
 
     submit() {
-        cy.contains(el.signupButton).click()
+        cy.contains(el.submitButton).click()
     }
 }
 
-export default new SignupPage()
+export default new LoginPage()
